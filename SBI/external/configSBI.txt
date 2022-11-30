@@ -1,0 +1,13 @@
+[blast]
+executable     = psiblast
+dbformatexe    = makeblastdb
+path           = /soft/system/software/BLAST+/2.12.0/bin/
+variable_path
+
+[dssp]
+executable     = mkdssp
+path           = /usr/bin/
+
+[cd-hit]
+executable     = cd-hit
+path           = /soft/EB_repo/bio/sequence/programs/goolf/1.7.20/CD-HIT/4.6.4/bin/
