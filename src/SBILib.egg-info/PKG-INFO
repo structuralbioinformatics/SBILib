@@ -1,3 +1,13 @@
+Metadata-Version: 2.1
+Name: SBILib
+Version: 0.3.3
+Home-page: https://github.com/structuralbioinformatics/SBI
+Author: Patrick Gohl
+Author-email: patrick.gohl@upf.edu
+License: MIT
+Keywords: Structural Bioinformatics,Loops
+Description-Content-Type: text/markdown
+
 # Welcome to the StructuralBioInformatics pylib
 
 The **SBILib** python library is a continuous work in progress that clusters functionalities to work with data derived from [PDB][1], from creating a local PDB repository to do _real_ Blast searches over PDB sequences (i.e. sequences of the really crystallized protein sections) to perform a simply split chains (separate the sections of a PDB file).

@@ -1,1 +1,4 @@
-include REQUIREMENTS
+include src/SBILib/external/README.md
+include src/SBILib/external/configSBI.txt
+include src/SBILib/tests/*
+include Scenarios.md
