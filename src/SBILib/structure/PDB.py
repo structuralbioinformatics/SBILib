@@ -689,9 +689,17 @@ class PDB(StorableObject):
     def graft(self, PDB2, selection):
         # gathering loop info from selection
         query_chain_id = selection.split(":")[1].split(",")[0]
+        query_start_1 = str(int(selection.split(":")[1].split(",")[1]) - 2)
+        query_end_1 = selection.split(":")[1].split(",")[1]
+        query_start_2 = selection.split(":")[1].split(",")[2]
+        query_end_2 = str(int(selection.split(":")[1].split(",")[2]) + 2) 
         query_start = selection.split(":")[1].split(",")[1]
         query_end = selection.split(":")[1].split(",")[2]
         target_chain_id = selection.split(":")[3].split(",")[0]
+        target_start_1 = str(int(selection.split(":")[3].split(",")[1]) -2)
+        target_end_1 = selection.split(":")[3].split(",")[1]
+        target_start_2 = selection.split(":")[3].split(",")[2]
+        target_end_2 = str(int(selection.split(":")[3].split(",")[2]) + 2)
         target_start = selection.split(":")[3].split(",")[1]
         target_end = selection.split(":")[3].split(",")[2]
 
@@ -700,7 +708,9 @@ class PDB(StorableObject):
         target_chain = PDB2.get_chain_by_id(target_chain_id)
 
         #grabbing the guiding loop 
-        nguide = query_chain.extract(int(query_start)-1 , int(query_end) - 1 , backbone=True)
+        nguide = query_chain.extract(int(query_start_1)-1 , int(query_end_1) - 1 , backbone=True)
+        addition = query_chain.extract(int(query_start_2)-1 , int(query_end_2) - 1 , backbone=True)
+        nguide._add_residues(addition._all_residues)
         # retriveing vector and center of guide
         nguide_vector = []
         for r in nguide.aminoacids:
@@ -710,7 +720,9 @@ class PDB(StorableObject):
         nguide_center = numpy.mean(nguide_vector, axis = 0, dtype = numpy.float64)
 
         # Doing the same for the target loop
-        nquery = target_chain.extract(int(target_start) -1 , int(target_end)-1 , backbone=True)
+        nquery = target_chain.extract(int(target_start_1) -1 , int(target_end_1)-1 , backbone=True)
+        addition = target_chain.extract(int(target_start_2) -1 , int(target_end_2)-1 , backbone=True)
+        nquery._add_residues(addition._all_residues)
         nquery_vector = []
         for r in nquery.aminoacids:
             for a in r.atoms:
