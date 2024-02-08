@@ -44,7 +44,7 @@ def parse_blast(query_sequence, blast_output_file, selfHit, hitIDformat):
     '''
         3.3. Create the BlastResult object
     '''
-    BlastOutput = BR.BlastResult(queryname     = queryname,     querylength     = querylength,
+    BlastOutput = BR(queryname     = queryname,     querylength     = querylength,
                                  blastversion  = blastversion,  blastmatrix     = matrix, 
                                  gap_open      = int(gap_open), gap_extend      = int(gap_extend),  
                                  blastdb       = db,            queryseq        = query_sequence)
@@ -86,7 +86,7 @@ def parse_blast(query_sequence, blast_output_file, selfHit, hitIDformat):
 
                     for subhit in subhitlist.getElementsByTagName("Hsp"):
                         data = parse_subhit(subhit = subhit)
-                        OutputHit = BH.BlastHit(name      = hitname,    length       = hitlength,  iteration  = iteration_number,
+                        OutputHit = BH(name      = hitname,    length       = hitlength,  iteration  = iteration_number,
                                                 e_value   = data['ev'], align_length = data['al'], identities = data['hi'], 
                                                 positives = data['hp'], gaps         = data['hg'], qseq       = data['qs'],
                                                 hseq      = data['hs'], qpos         = data['qpi'],
