@@ -1,3 +1,3 @@
 from .BlastExe    import BlastExe
-from . import BlastResult
-from . import BlastHit
+from .BlastResult import BlastResult
+from .BlastHit import BlastHit
