@@ -121,6 +121,10 @@ class mmCIF( object ):
             if self._check_multiline(line):
                 self._assign(specialSplit(self.buffer, self.monoliners), pdbobject)
                 self.buffer = ""
+        if self.WriteCIF:
+            self._write_to_pdb_object(pdbobject)
+            self.WriteCIF = False
+
         info = self.data
         self._set_default(True)
         return info
@@ -172,12 +176,13 @@ class mmCIF( object ):
         else:
             k = list(self.lastkey.keys())[0]
             for x in range(len(data)):
-                #try:
-                """
-                subtracted 1 from [self.lastsubkey + x] for proper indexing
-                """
-                self.data[self.keyname][k][self.lastkey[k][self.lastsubkey + x - 1]].append(typefy(data[x][0], True))
-                #except:
+                try:
+                    """
+                    subtracted 1 from [self.lastsubkey + x] for proper indexing
+                    """
+                    self.data[self.keyname][k][self.lastkey[k][self.lastsubkey + x - 1]].append(typefy(data[x][0], True))
+                except:
+                    pass
                      #print(len(data))
                      #print(x)
                      #exit(0)
@@ -186,9 +191,9 @@ class mmCIF( object ):
                 """
             self.lastsubkey = self.lastsubkey + x + 1
             
-            if k == '_pdbx_poly_seq_scheme' and self.WriteCIF:
-                self._write_to_pdb_object(pdbobject)
-                self.WriteCIF = False
+            #if k == '_pdbx_poly_seq_scheme' and self.WriteCIF:
+            #    self._write_to_pdb_object(pdbobject)
+            #    self.WriteCIF = False
             if self.lastsubkey >= len(self.lastkey[k]):
                 self.lastsubkey = 0
 
@@ -247,8 +252,14 @@ class mmCIF( object ):
                     pos2 = self.data[key]['_atom_site']['group_PDB'][index]
                     pos3 = self.data[key]['_atom_site']['type_symbol'][index]
                     pos4 = self.data[key]['_atom_site']['label_alt_id'][index]
-                    pos5 = self.data[key]['_atom_site']['auth_comp_id'][index]
-                    pos6 = self.data[key]['_atom_site']['pdbx_formal_charge'][index]
+                    try:
+                        pos5 = self.data[key]['_atom_site']['auth_comp_id'][index]
+                    except:
+                        pos5 = self.data[key]['_atom_site']['label_comp_id'][index]
+                    try:
+                        pos6 = self.data[key]['_atom_site']['pdbx_formal_charge'][index]
+                    except:
+                        pos6 = self.data[key]['_atom_site']['label_entity_id'][index]
                     pos7 = self.data[key]['_atom_site']['pdbx_PDB_ins_code'][index]
                     pos8 = self.data[key]['_atom_site']['Cartn_x'][index]
                     pos9 = self.data[key]['_atom_site']['Cartn_y'][index]
@@ -257,12 +268,20 @@ class mmCIF( object ):
                     pos12 = self.data[key]['_atom_site']['id'][index]
                     pos13 = self.data[key]['_atom_site']['B_iso_or_equiv'][index]
                     pdbline = pos1.ljust(6) + pos2.rjust(5) + "  " + pos3.ljust(4) + pos4.rjust(3) + pos5.rjust(2) + pos6.rjust(4) + "    " + pos7.rjust(8) + pos8.rjust(8) + pos9.rjust(8) + pos10.rjust(6) + pos11.rjust(6) + pos12.rjust(12) + pos13.rjust(2)
-  
-                    chain = self.data[key]['_atom_site']['auth_comp_id'][index]
                     
-                    if self.data[key]['_atom_site']['auth_atom_id'][index] != "1":
-                        old_chain = "Old_Chain"
-                        pdbobject._NMR = True
+                    try:
+                        chain = self.data[key]['_atom_site']['auth_comp_id'][index]
+                    except:
+                        chain = self.data[key]['_atom_site']['label_comp_id'][index]
+
+                    try:    
+                        if self.data[key]['_atom_site']['auth_atom_id'][index] != "1":
+                            old_chain = "Old_Chain"
+                            pdbobject._NMR = True
+                    except:
+                        if self.data[key]['_atom_site']['label_atom_id'][index] != "1":
+                            old_chain = "Old_Chain"
+                            pdbobject._NMR = True
                     if chain != old_chain:
                         chain_type = self.data[key]['_atom_site']['label_alt_id'][index]
                         if chain_type in aminoacids3to1:
@@ -314,6 +333,7 @@ def read_translated_line(thischain, line, keep_version = "A"):
     @param keep_version: Some residues have two versions, codified in front of the residue_type (line[16:17])
                          By default we keep the A version of doubles Aa, but it can be changed through parameters
     """
+    print(line)
     isOK = set([" ", keep_version, thischain._residue_version])
 
     #This skips several versions of the same residue. It always will grab " " and keep_version
