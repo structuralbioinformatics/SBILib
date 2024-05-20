@@ -274,14 +274,14 @@ class mmCIF( object ):
                     except:
                         chain = self.data[key]['_atom_site']['label_comp_id'][index]
 
-                    try:    
-                        if self.data[key]['_atom_site']['auth_atom_id'][index] != "1":
-                            old_chain = "Old_Chain"
-                            pdbobject._NMR = True
-                    except:
-                        if self.data[key]['_atom_site']['label_atom_id'][index] != "1":
-                            old_chain = "Old_Chain"
-                            pdbobject._NMR = True
+                    #try:    
+                    #    if self.data[key]['_atom_site']['auth_atom_id'][index] != "1":
+                    #        old_chain = "Old_Chain"
+                    #        pdbobject._NMR = True
+                    #except:
+                    #    if self.data[key]['_atom_site']['label_atom_id'][index] != "1":
+                    #        old_chain = "Old_Chain"
+                    #        pdbobject._NMR = True
                     if chain != old_chain:
                         chain_type = self.data[key]['_atom_site']['label_alt_id'][index]
                         if chain_type in aminoacids3to1:
