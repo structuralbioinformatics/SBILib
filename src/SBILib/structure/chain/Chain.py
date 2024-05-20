@@ -328,7 +328,7 @@ class Chain(object):
         for x in range(len(working_array)):
             #Atoms
             if initatom > 99999: initatom = 1
-            working_array[x].renumerate_atoms(first_atom_number = initatom)
+            working_array[x].renumber_atoms(first_atom_number = initatom)
             initatom = working_array[x].last_atom_number + 1
             #Residues
             original_number = working_array[x].number
@@ -350,12 +350,12 @@ class Chain(object):
                     working_array[x].normalize()
             old_number = original_number
 
-    def renumerate_residues(self, init = 1, gaps = True):
+    def renumber_residues(self, init = 1, gaps = True):
         """
-        Renumerates a chain starting in a given initial number
+        renumbers a chain starting in a given initial number
 
         @type  init: Integer
-        @param init: Starting number of the renumerated chain.
+        @param init: Starting number of the renumberd chain.
                      1 by default.
 
         @type  gaps: Boolean
@@ -377,11 +377,11 @@ class Chain(object):
             else:
                 init = init + 1
 
-    def renumerate_atoms(self, init = 1):
+    def renumber_atoms(self, init = 1):
         """
-        Renumerates de atoms of a chain consecutively from a given value
+        renumbers de atoms of a chain consecutively from a given value
         @type  init: Integer
-        @param init: Starting atom number of the renumerated chain.
+        @param init: Starting atom number of the renumberd chain.
                      1 by default.
 
         @raise AttributeError if init is not or cannot be casted to an integer
@@ -392,7 +392,7 @@ class Chain(object):
 
         for x in range(len(self)):
             if init > 99999: init = 1
-            self._all_residues[x].renumerate_atoms(first_atom_number = init)
+            self._all_residues[x].renumber_atoms(first_atom_number = init)
             init = self._all_residues[x].last_atom_number + 1
 
     def duplicate(self, hetero = True, water = False, backbone = False):
