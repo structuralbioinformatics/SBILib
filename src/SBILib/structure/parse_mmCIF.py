@@ -333,7 +333,7 @@ def read_translated_line(thischain, line, keep_version = "A"):
     @param keep_version: Some residues have two versions, codified in front of the residue_type (line[16:17])
                          By default we keep the A version of doubles Aa, but it can be changed through parameters
     """
-    print(line)
+    #print(line)
     isOK = set([" ", keep_version, thischain._residue_version])
 
     #This skips several versions of the same residue. It always will grab " " and keep_version

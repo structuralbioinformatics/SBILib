@@ -344,7 +344,7 @@ class PDB(StorableObject):
 
     def tmpclean(self, cluster_by_alternative_id=False):
         """
-        Makes a clean version of the PDB, rechaining in order and renumerating atoms.
+        Makes a clean version of the PDB, rechaining in order and renumbering atoms.
         Renumbering residues is optional
         """
         pchainsIDs = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
@@ -377,7 +377,7 @@ class PDB(StorableObject):
             else:
                 chainsNIDs = chainsNIDs.replace(chain.chain, '')
 
-            chain.renumerate_atoms(init=atom_count)
+            chain.renumber_atoms(init=atom_count)
             atom_count += (chain.atom_length)
 
     def fuse_chains(self, chains_ids):
@@ -413,7 +413,7 @@ class PDB(StorableObject):
 
         init_chain_num = new_PDB.chains[0].last_residue.number
         for x in range(1, len(new_PDB.chains)):
-            new_PDB.chains[x].renumerate_residues(init=init_chain_num + 1)
+            new_PDB.chains[x].renumber_residues(init=init_chain_num + 1)
             init_chain_num = new_PDB.chains[0].last_residue.number
             new_PDB.chains[0].fuse(chain=new_PDB.chains[x])
 
@@ -737,10 +737,10 @@ class PDB(StorableObject):
         target_chain.translate(nguide_center)
 
         #Creating Grafted Protein
-        NewChain = query_chain.extract(query_chain.first_aminoacid.number,query_chain.first_aminoacid.number+int(query_start)-2, backbone=True)
-        extension = target_chain.extract(target_chain.first_aminoacid.number + int(target_start)-1 , target_chain.first_aminoacid.number + int(target_end) -1 , backbone=True)
+        NewChain = query_chain.extract(query_chain.first_aminoacid.number,query_chain.first_aminoacid.number+int(query_start)-2, backbone=False)
+        extension = target_chain.extract(target_chain.first_aminoacid.number + int(target_start)-1 , target_chain.first_aminoacid.number + int(target_end) -1 , backbone=False)
         NewChain.join(extension)
-        extension = query_chain.extract(query_chain.first_aminoacid.number+int(query_end) , -1 , backbone=True)
+        extension = query_chain.extract(query_chain.first_aminoacid.number+int(query_end) , -1 , backbone=False)
         NewChain.join(extension)
         NewChain.chain = query_chain_id
         GraftedProtein = PDB()

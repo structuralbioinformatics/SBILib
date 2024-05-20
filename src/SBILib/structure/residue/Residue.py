@@ -171,9 +171,9 @@ class Residue(object):
     def normalize(self):
         raise NotImplementedError
 
-    def renumerate_atoms(self, first_atom_number):
+    def renumber_atoms(self, first_atom_number):
         """
-        Given the number for the first atom, renumerates the rest accordingly
+        Given the number for the first atom, renumbers the rest accordingly
         @type  value: Integer
         """
         for atom in self.atoms:
