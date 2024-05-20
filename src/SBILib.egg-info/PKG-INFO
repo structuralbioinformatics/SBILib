@@ -1,11 +1,13 @@
 Metadata-Version: 2.1
 Name: SBILib
-Version: 0.3.3
+Version: 0.3.10
+Summary: UNKNOWN
 Home-page: https://github.com/structuralbioinformatics/SBI
 Author: Patrick Gohl
 Author-email: patrick.gohl@upf.edu
 License: MIT
 Keywords: Structural Bioinformatics,Loops
+Platform: UNKNOWN
 Description-Content-Type: text/markdown
 
 # Welcome to the StructuralBioInformatics pylib
@@ -24,7 +26,7 @@ The library **is not exempt of bugs** (probably), and can not be considered a fi
 
 This manual contains a short turorial split into 6 common Tasks.<br/>
 Information on how to access more detailed help pages within python is provided at the end.<br/>
-We have made available a list of slightly more complex scenarios on which the SBILib library may be applied. In Scenarios.md (https://github.com/structuralbioinformatics/SBI)
+We have made available a list of slightly more complex scenarios on which the SBILib library may be applied. In Scenarios.md (https://github.com/structuralbioinformatics/SBILib)
 
 ### Dependencies
 python3 <br/>
@@ -48,10 +50,10 @@ This command will install the package locally.<br/>
 It can also be directly cloned from our github repo:<br/>
 
 ```console
-git clone https://github.com/structuralbioinformatics/SBI
+git clone https://github.com/structuralbioinformatics/SBILib
 ```
 
-Alternatively it is also possible to navigate directly to the repository https://github.com/structuralbioinformatics/SBI and copy the folder manually.<br/>
+Alternatively it is also possible to navigate directly to the repository https://github.com/structuralbioinformatics/SBILib and copy the folder manually.<br/>
 
 
 ## Testing:
@@ -140,19 +142,19 @@ protein2.chain_identifiers
 ### 4) Selecting other elements of PDB 
 
 Now that we have seen how to select Chains of a protein we can also select the amino acids.<br/>
-We will renumerate the atoms and residues so that they start at 1.<br/>
+We will renumber the atoms and residues so that they start at 1.<br/>
 ```{python}
 
 ChainA = protein.get_chain_by_id("A")
 
-ChainA.renumerate_residues(1)
-ChainA.renumerate_atoms(1)
+ChainA.renumber_residues(1)
+ChainA.renumber_atoms(1)
 
 ChainA.aminoacids
 
 ```
 
-This list all of the amino acids in the Chain and its atoms.<br/>
+This lists all of the amino acids in the Chain and its atoms.<br/>
 The selection can be more specific by selecting one amino acid from the list.<br/>
 We can access the number (the position of the amino acid on the chain)<br/>
 The type of amino acid (three letter code and single letter).<br/>
@@ -542,7 +544,7 @@ for hit in  blastresults.get_hits( evalue = 0, tz_type = "ID"):
 
 The secondary structure of a protein plays a vital role in its function.<br/>
 The SBILib package allows for the quick viewing of how secondary structure is represented in an alignment.<br/>
-Are vital secondary structure element located in a gap resulting in a homolog with unequal function?<br/>
+Are vital secondary structure elements located in a gap resulting in a homolog with unequal function?<br/>
 Here we demonstrate how this can be analyzed.<br/>
 
 ```{python}
@@ -567,7 +569,7 @@ blastresults.str_PIR(result = 13)
 
 
 ```
-This wil output a PIR format alignment of the two proteins. Dashes in the target protein (second sequence of the PIR) indicate gaps in the alignment. We are interestsed in seeing what secondary structure elements (if any) may have gone missing as a result of these gaps.  
+This will output a PIR format alignment of the two proteins. Dashes in the target protein (second sequence of the PIR) indicate gaps in the alignment. We are interested in seeing what secondary structure elements (if any) may have gone missing as a result of these gaps.  
 ```{python}
 
 string = blastresults.str_PIR(result = 13)
@@ -826,8 +828,8 @@ ChainA.archs
 
 ```
 The output of the archs command is a list of the loop geometries calculated for the given chain (ChainA)<br/>
-We get the first secondary structure that flanks the loop. In parantheses the structure type (see Task2.3) it's start, length and end.<br/>
-An axis for flanking secondary structures 1 defined based on the shortest of the principal moments of inertia for that structures. <br/>
+We get the first secondary structure that flanks the loop. In parentheses the structure type (see Task2.3) it's start, length and end.<br/>
+An axis for flanking secondary structures 1 defined based on the shortest of the principal moments of inertia for that structure. <br/>
 The same information is printed out for the second flanking structure.<br/>
 The arch Type is printed:<br/>
 BK: beta-link<br/>
@@ -864,14 +866,14 @@ The output follows the same format as the previous.
 
 ### Loop Grafting
 
-We will show how SBILib may be used to graft the loop of one protein into the structure of another protein with similiar loop geometry. 
+We will show how SBILib may be used to graft the loop of one protein into the structure of another protein with similar loop geometry. 
 
 ```{python}
 
 new = PDBlink()
 path = new.get_PDB("2ram")
 protein2 = PDB(path)
-report = protein.compare_loops(self.protein2)
+report = protein.compare_loops(protein2)
 report[0]
 
 # 'QueryProt:A,176,182:TargetProt:A,160,166:VISQPIH,VLSHPIF'
@@ -999,7 +1001,7 @@ Methods defined here: <br/>
  |      @type matrix: numpy.matrix <br/>
  |  <br/>
  |  tmpclean(self, cluster_by_alternative_id=False) <br/>
- |      Makes a clean version of the PDB, rechaining in order and renumerating atoms. <br/>
+ |      Makes a clean version of the PDB, rechaining in order and renumbering atoms. <br/>
  |      Renumbering residues is optional <br/>
  |  <br/>
  |  translate(self, vector=None) <br/>
@@ -1029,6 +1031,8 @@ Methods defined here: <br/>
  |      @param format: Format of the file to read <br/>
  |  <br/>
  |  ---------------------------------------------------------------------- <br/>
+
+
 
 
 

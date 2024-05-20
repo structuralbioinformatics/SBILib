@@ -127,6 +127,8 @@ src/SBILib/structure/residue/Residue.py
 src/SBILib/structure/residue/ResidueOfAminoAcid.py
 src/SBILib/structure/residue/ResidueOfNucleotide.py
 src/SBILib/structure/residue/__init__.py
+src/SBILib/tests/TEST_PDB1A3Q_A.60.pdb
+src/SBILib/tests/TEST_PDB2RAM_A.85.pdb
 src/SBILib/tests/Test.py
 src/SBILib/tests/Test_1a3q.cif.gz
 src/SBILib/tests/Test_pdb1a2w.ent.gz
