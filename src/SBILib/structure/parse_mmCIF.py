@@ -110,7 +110,7 @@ class mmCIF( object ):
         :param str file_name: Name of the file to parse.
         :return: json containing the file's data
         """
-        file_name = pdbobject._cif_file.name
+        file_name = pdbobject._cif_file.full
         fd = gzip.open(file_name, 'rt') if file_name.endswith("gz") else open(file_name)
         return self._from_filehandle(fd, pdbobject)
 
