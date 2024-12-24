@@ -566,27 +566,27 @@ class Chain(object):
         lines = []
         residue = None
         # for residue in self._all_residues:
-        for residue in self._structure:
-            for atom in residue.atoms:
-                if atom.occupancy != "" and atom.tempFactor != "":
-                    lines.append("%s%s %s%s%s%s%s%s%s%s%s          %s%s"
-                                %(residue.mode.ljust(6), str(atom.number).rjust(5),
-                                str(atom.pretty_name),
-                                residue.standard_type.rjust(4),
-                                str(self._chain).rjust(2),
-                                str(residue.identifier).rjust(5),
-                                ("%.3f" %float(atom.x)).rjust(11),
-                                ("%.3f" %float(atom.y)).rjust(8),
-                                ("%.3f" %float(atom.z)).rjust(8),
-                                ("%.2f" %float(atom.occupancy)).rjust(6),
-                                ("%.2f" %float(atom.tempFactor)).rjust(6),
-                                str(atom.element).ljust(2),
+        if self.has_heteroatoms:
+            for residue in self.heteroatoms:
+                for atom in residue.atoms:
+                    if atom.occupancy != "" and atom.tempFactor != "":
+                        lines.append("%s%s %s%s%s%s%s%s%s%s%s          %s%s" 
+                                %(residue.mode.ljust(6), str(atom.number).rjust(5), 
+                                str(atom.pretty_name), residue.type.rjust(4), 
+                                str(self._chain).rjust(2), 
+                                str(residue.identifier).rjust(5), 
+                                ("%.3f" %float(atom.x)).rjust(11), 
+                                ("%.3f" %float(atom.y)).rjust(8), 
+                                ("%.3f" %float(atom.z)).rjust(8), 
+                                ("%.2f" %float(atom.occupancy)).rjust(6), 
+                                ("%.2f" %float(atom.tempFactor)).rjust(6), 
+                                str(atom.element).ljust(2), 
                                 str(atom.charge).ljust(2)))
-                else:
-                    lines.append("%s%s %s%s%s%s%s%s%s%s%s          %s%s"
+                    else:
+                        lines.append("%s%s %s%s%s%s%s%s%s%s%s          %s%s"
                                 %(residue.mode.ljust(6), str(atom.number).rjust(5),
                                 str(atom.pretty_name),
-                                residue.standard_type.rjust(4),
+                                residue.type.rjust(4),
                                 str(self._chain).rjust(2),
                                 str(residue.identifier).rjust(5),
                                 ("%.3f" %float(atom.x)).rjust(11),
@@ -596,6 +596,37 @@ class Chain(object):
                                 str(atom.tempFactor).rjust(6),
                                 str(atom.element).ljust(2),
                                 str(atom.charge).ljust(2)))
+        else:
+            for residue in self._structure:
+                for atom in residue.atoms:
+                    if atom.occupancy != "" and atom.tempFactor != "":
+                        lines.append("%s%s %s%s%s%s%s%s%s%s%s          %s%s"
+                                    %(residue.mode.ljust(6), str(atom.number).rjust(5),
+                                    str(atom.pretty_name),
+                                    residue.standard_type.rjust(4),
+                                    str(self._chain).rjust(2),
+                                    str(residue.identifier).rjust(5),
+                                    ("%.3f" %float(atom.x)).rjust(11),
+                                    ("%.3f" %float(atom.y)).rjust(8),
+                                    ("%.3f" %float(atom.z)).rjust(8),
+                                    ("%.2f" %float(atom.occupancy)).rjust(6),
+                                    ("%.2f" %float(atom.tempFactor)).rjust(6),
+                                    str(atom.element).ljust(2),
+                                    str(atom.charge).ljust(2)))
+                    else:
+                        lines.append("%s%s %s%s%s%s%s%s%s%s%s          %s%s"
+                                    %(residue.mode.ljust(6), str(atom.number).rjust(5),
+                                    str(atom.pretty_name),
+                                    residue.standard_type.rjust(4),
+                                    str(self._chain).rjust(2),
+                                    str(residue.identifier).rjust(5),
+                                    ("%.3f" %float(atom.x)).rjust(11),
+                                    ("%.3f" %float(atom.y)).rjust(8),
+                                    ("%.3f" %float(atom.z)).rjust(8),
+                                    str(atom.occupancy).rjust(6),
+                                    str(atom.tempFactor).rjust(6),
+                                    str(atom.element).ljust(2),
+                                    str(atom.charge).ljust(2)))
         if terminal:
             if residue is not None:
                 lines.append("TER%s%s%s" %(residue.type.rjust(17),str(self._chain).rjust(2),
