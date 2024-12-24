@@ -344,7 +344,10 @@ def read_translated_line(thischain, line, keep_version = "A"):
         else:
             return
 
-    residue_num = int(line[22:26].strip())
+    if line[:6] == "HETATM":
+        residue_num = 1
+    else:
+        residue_num = int(line[22:26].strip())
     residue_ver = line[26:27]
 
     #Check the need of creating a new residue
